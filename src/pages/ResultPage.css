@@ -31,20 +31,21 @@
   max-height: 220px;
   object-fit: cover;
   border-radius: var(--radius-lg);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
 .result-summary {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-xl);
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-sm) 0;
+  padding: var(--space-md) 0;
   border-bottom: 1px solid var(--border-subtle);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .summary-row:last-child {
@@ -104,4 +105,12 @@
   left: 4px;
   color: var(--green-soft);
   font-weight: 700;
+}
+
+.card {
+  margin-bottom: var(--space-lg);
+}
+
+.btn-primary {
+  margin-top: var(--space-xl);
 }

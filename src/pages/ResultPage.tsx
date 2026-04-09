@@ -52,6 +52,11 @@ export default function ResultPage() {
       )}
 
       {/* Risk gauge */}
+      <div className="result-section-header" style={{ textAlign: 'center', marginBottom: 'var(--space-md)' }}>
+        <p className="text-muted" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          คะแนนความรุนแรงของโรค
+        </p>
+      </div>
       <RiskGauge score={prediction.risk_score} />
 
       {/* OOD Warning */}
@@ -66,29 +71,29 @@ export default function ResultPage() {
       {/* Prediction summary */}
       <div className="card result-summary">
         <div className="summary-row">
-          <span className="summary-label">โมเดล</span>
-          <span className="summary-value">{prediction.model}</span>
-        </div>
-        <div className="summary-row">
-          <span className="summary-label">ความแม่นยำ</span>
+          <span className="summary-label">ความเชี่ยวชาญของ AI</span>
           <span className="summary-value">{prediction.final_confidence}%</span>
         </div>
         <div className="summary-row">
-          <span className="summary-label">ใบที่ตรวจ</span>
+          <span className="summary-label">จำนวนใบที่ตรวจพบ</span>
           <span className="summary-value">{image_analysis.detected_leaves} ใบ</span>
         </div>
         <div className="summary-row">
-          <span className="summary-label">อากาศเพิ่มความเสี่ยง</span>
+          <span className="summary-label">ปัจจัยเสริมจากสภาพอากาศ</span>
           <span className="summary-value">
             {prediction.weather_amplified ? (
-              <AlertTriangle size={14} color="var(--risk-high)" />
+              <span style={{ color: 'var(--risk-high)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <AlertTriangle size={14} /> มีผลกระทบสูง
+              </span>
             ) : (
-              <CheckCircle size={14} color="var(--risk-safe)" />
+              <span style={{ color: 'var(--risk-safe)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <CheckCircle size={14} /> ปกติ
+              </span>
             )}
           </span>
         </div>
         <div className="summary-row">
-          <span className="summary-label">พยากรณ์ 7 วัน</span>
+          <span className="summary-label">แนวโน้มใน 7 วัน</span>
           <span className="summary-value">{prediction.forecast_risk_7d.level_7d}</span>
         </div>
       </div>
