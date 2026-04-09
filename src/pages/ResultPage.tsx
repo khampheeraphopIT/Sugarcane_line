@@ -33,7 +33,7 @@ export default function ResultPage() {
   const riskMeta = getRiskMeta(prediction.risk_score);
 
   const isHealthy = image_analysis.is_healthy;
-  const isOod = record.result.is_ood;
+  const isOod = record.result.is_ood || prediction.final_disease === 'Unknown';
 
   return (
     <div className="page fade-in result-page">
