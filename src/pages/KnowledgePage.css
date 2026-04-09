@@ -1,0 +1,108 @@
+.tip-tasks {
+  list-style: none;
+  padding: 0;
+}
+
+.tip-tasks li {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 4px 0 4px 16px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.tip-tasks li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green-soft);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.disease-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.disease-accordion {
+  padding: 0;
+  overflow: hidden;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding: var(--space-lg);
+  background: none;
+  color: var(--text-primary);
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.accordion-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.accordion-title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.disease-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.disease-pathogen {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.accordion-body {
+  padding: 0 var(--space-lg) var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.disease-section {
+  margin-top: var(--space-lg);
+}
+
+.disease-section h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.disease-section p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.disease-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.disease-section li {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 3px 0 3px 14px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.disease-section li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--green-soft);
+}
