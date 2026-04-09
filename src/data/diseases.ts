@@ -26,7 +26,7 @@ export const DISEASES: DiseaseInfo[] = [
     ],
     treatment: ['-'],
     chemicals: ['-'],
-    icon: '🌿',
+    icon: 'leaf',
   },
   {
     id: 1,
@@ -57,7 +57,7 @@ export const DISEASES: DiseaseInfo[] = [
       'Carbendazim 50% WP (อัตรา 20 กรัม/น้ำ 20 ลิตร)',
       'Thiophanate-methyl',
     ],
-    icon: '🔴',
+    icon: 'alert-circle',
   },
   {
     id: 2,
@@ -87,7 +87,7 @@ export const DISEASES: DiseaseInfo[] = [
       'Imidacloprid (กำจัดเพลี้ยอ่อน)',
       'Thiamethoxam (กำจัดแมลงพาหะ)',
     ],
-    icon: '🟢',
+    icon: 'check-circle',
   },
   {
     id: 3,
@@ -117,7 +117,7 @@ export const DISEASES: DiseaseInfo[] = [
       'Mancozeb 80% WP (อัตรา 40-50 กรัม/น้ำ 20 ลิตร)',
       'Triadimefon',
     ],
-    icon: '🟠',
+    icon: 'zap',
   },
   {
     id: 4,
@@ -147,7 +147,7 @@ export const DISEASES: DiseaseInfo[] = [
       'Imidacloprid (กำจัดเพลี้ยอ่อน)',
       'Acetamiprid (กำจัดแมลงพาหะ)',
     ],
-    icon: '🟡',
+    icon: 'activity',
   },
   {
     id: 5,
@@ -178,7 +178,7 @@ export const DISEASES: DiseaseInfo[] = [
       'Zineb 75% WP',
       'Copper Oxychloride 85% WP',
     ],
-    icon: '🔥',
+    icon: 'flame',
   },
 ];
 

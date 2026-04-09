@@ -4,7 +4,7 @@
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, CloudSun, ChevronRight } from 'lucide-react';
+import { Camera, CloudSun, ChevronRight, Hand, ClipboardCheck } from 'lucide-react';
 import { useLiff } from '@/liff/LiffContext';
 import RiskGauge from '@/components/Weather/RiskGauge';
 import WeatherCard from '@/components/Weather/WeatherCard';
@@ -45,7 +45,16 @@ export default function HomePage({
       {/* Greeting */}
       <div className="home-greeting">
         <h2>
-          สวัสดี, <span className="green">{user?.displayName ?? 'เกษตรกร'}</span> 👋
+          สวัสดี, <span className="green">{user?.displayName ?? 'เกษตรกร'}</span>{' '}
+          <Hand
+            size={24}
+            style={{
+              display: 'inline',
+              verticalAlign: 'middle',
+              color: '#facc15',
+              marginLeft: '4px'
+            }}
+          />
         </h2>
         <p className="home-subtitle">รายงานสุขภาพแปลงอ้อยของคุณ</p>
       </div>
@@ -111,7 +120,7 @@ export default function HomePage({
 
       {/* Data notice */}
       <p className="data-notice">
-        📋 ระบบจัดเก็บประวัติการวิเคราะห์ล่าสุด 30 วัน เพื่อประสิทธิภาพการใช้งาน
+        <ClipboardCheck size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} /> ระบบจัดเก็บประวัติการวิเคราะห์ล่าสุด 30 วัน เพื่อประสิทธิภาพการใช้งาน
       </p>
     </div>
   );

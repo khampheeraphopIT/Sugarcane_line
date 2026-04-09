@@ -4,7 +4,7 @@
 
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Upload, MapPin, Loader2 } from 'lucide-react';
+import { Camera, Upload, MapPin, Loader2, AlertCircle, Zap } from 'lucide-react';
 import { useGeolocation } from '@/hooks/useGeolocation';
 import { useAnalyze } from '@/hooks/useAnalyze';
 import { useScanHistory } from '@/hooks/useScanHistory';
@@ -64,7 +64,10 @@ export default function ScanPage() {
 
   return (
     <div className="page fade-in">
-      <h2 className="page-title">📸 สแกนใบอ้อย</h2>
+      <h2 className="page-title">
+        <Camera size={24} style={{ verticalAlign: 'middle', marginRight: 8, color: 'var(--primary)' }} />
+        สแกนใบอ้อย
+      </h2>
       <p className="page-desc">ถ่ายรูปหรือเลือกรูปใบอ้อยเพื่อวิเคราะห์โรค</p>
 
       {/* Image capture */}
@@ -109,7 +112,7 @@ export default function ScanPage() {
           <MapPin size={16} />
           {geo.loading
             ? 'กำลังหาตำแหน่ง...'
-            : `📍 ${geo.latitude.toFixed(4)}, ${geo.longitude.toFixed(4)}`}
+            : <><MapPin size={16} /> {geo.latitude.toFixed(4)}, {geo.longitude.toFixed(4)}</>}
         </button>
       </div>
 
@@ -158,7 +161,12 @@ export default function ScanPage() {
       </div>
 
       {/* Error */}
-      {error && <p className="scan-error">❌ {error}</p>}
+      {error && (
+        <p className="scan-error">
+          <AlertCircle size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+          {error}
+        </p>
+      )}
 
       {/* Submit */}
       <button
@@ -171,7 +179,10 @@ export default function ScanPage() {
             <Loader2 size={20} className="spin" /> กำลังวิเคราะห์...
           </>
         ) : (
-          '🔬 เริ่มวิเคราะห์โรค'
+          <>
+            <Zap size={20} style={{ marginRight: 8 }} />
+            เริ่มวิเคราะห์โรค
+          </>
         )}
       </button>
     </div>

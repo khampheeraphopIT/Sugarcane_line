@@ -3,9 +3,10 @@
    ────────────────────────────────────────────── */
 
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronUp, BookOpen, Calendar, Bug, Sun, ShieldCheck, Pill, FlaskConical } from 'lucide-react';
 import { DISEASES } from '@/data/diseases';
 import { getCurrentSeasonalTip, getUpcomingSeasonalTips } from '@/data/seasonalGuide';
+import { DynamicIcon } from '@/components/Common/DynamicIcon';
 import type { DiseaseInfo } from '@/types';
 import './KnowledgePage.css';
 
@@ -25,7 +26,10 @@ export default function KnowledgePage() {
 
       {/* Seasonal tip */}
       <div className="card-elevated" style={{ marginBottom: 'var(--space-xl)' }}>
-        <p className="section-title">📅 เดือนนี้ — {currentTip.title}</p>
+        <p className="section-title">
+          <Calendar size={14} style={{ marginRight: 6, color: 'var(--primary)' }} />
+          เดือนนี้ — {currentTip.title}
+        </p>
         <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 12, lineHeight: 1.5 }}>
           {currentTip.description}
         </p>
@@ -43,16 +47,19 @@ export default function KnowledgePage() {
           <div
             key={tip.month}
             className="card"
-            style={{ minWidth: 140, flex: '0 0 auto', padding: 12 }}
+            style={{ minWidth: 140, flex: '0 0 auto', padding: 12, textAlign: 'center' }}
           >
-            <span style={{ fontSize: '1.5rem' }}>{tip.icon}</span>
-            <p style={{ fontSize: '0.75rem', fontWeight: 600, marginTop: 4 }}>{tip.title}</p>
+            <DynamicIcon name={tip.icon} size={24} style={{ color: 'var(--primary)', marginBottom: 8 }} />
+            <p style={{ fontSize: '0.75rem', fontWeight: 600 }}>{tip.title}</p>
           </div>
         ))}
       </div>
 
       {/* Disease encyclopedia */}
-      <p className="section-title">🦠 สารานุกรมโรคอ้อย</p>
+      <p className="section-title">
+        <Bug size={14} style={{ marginRight: 6, color: 'var(--risk-critical)' }} />
+        สารานุกรมโรคอ้อย
+      </p>
       <div className="disease-list">
         {DISEASES.map((disease) => (
           <DiseaseAccordion
@@ -81,7 +88,9 @@ function DiseaseAccordion({
   return (
     <div className={`disease-accordion card ${isOpen ? 'open' : ''}`}>
       <button className="accordion-header" onClick={onToggle}>
-        <span className="accordion-icon">{disease.icon}</span>
+        <div className="accordion-icon">
+          <DynamicIcon name={disease.icon} size={18} />
+        </div>
         <div className="accordion-title">
           <span className="disease-name">{disease.nameThai}</span>
           <span className="disease-pathogen">{disease.pathogen}</span>
@@ -101,12 +110,18 @@ function DiseaseAccordion({
           </div>
 
           <div className="disease-section">
-            <h4>🌤️ สภาพอากาศที่กระตุ้น</h4>
+            <h4>
+              <Sun size={14} style={{ marginRight: 6, color: '#facc15' }} />
+              สภาพอากาศที่กระตุ้น
+            </h4>
             <p>{disease.triggerWeather}</p>
           </div>
 
           <div className="disease-section">
-            <h4>🛡️ วิธีป้องกัน</h4>
+            <h4>
+              <ShieldCheck size={14} style={{ marginRight: 6, color: 'var(--risk-safe)' }} />
+              วิธีป้องกัน
+            </h4>
             <ul>
               {disease.prevention.map((p, i) => (
                 <li key={i}>{p}</li>
@@ -115,7 +130,10 @@ function DiseaseAccordion({
           </div>
 
           <div className="disease-section">
-            <h4>💊 การรักษา</h4>
+            <h4>
+              <Pill size={14} style={{ marginRight: 6, color: '#a855f7' }} />
+              การรักษา
+            </h4>
             <ul>
               {disease.treatment.map((t, i) => (
                 <li key={i}>{t}</li>
@@ -125,7 +143,10 @@ function DiseaseAccordion({
 
           {disease.chemicals[0] !== '-' && (
             <div className="disease-section">
-              <h4>🧪 สารเคมีแนะนำ</h4>
+              <h4>
+                <FlaskConical size={14} style={{ marginRight: 6, color: '#3b82f6' }} />
+                สารเคมีแนะนำ
+              </h4>
               <ul>
                 {disease.chemicals.map((c, i) => (
                   <li key={i}>{c}</li>

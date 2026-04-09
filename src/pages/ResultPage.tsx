@@ -3,11 +3,12 @@
    ────────────────────────────────────────────── */
 
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertTriangle, CheckCircle, Shield } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, CheckCircle, Shield, Zap, Calendar, Pill, Eye, Camera } from 'lucide-react';
 import { useScanHistory } from '@/hooks/useScanHistory';
 import RiskGauge from '@/components/Weather/RiskGauge';
 import DiseaseDonut from '@/components/Charts/DiseaseDonut';
 import { getRiskMeta } from '@/utils/riskLevel';
+import { DynamicIcon } from '@/components/Common/DynamicIcon';
 import './ResultPage.css';
 
 export default function ResultPage() {
@@ -42,7 +43,13 @@ export default function ResultPage() {
       <div className="result-disease-header">
         <h2>{image_analysis.disease_name_thai}</h2>
         <div className="badge" style={{ background: riskMeta.bgColor, color: riskMeta.color }}>
-          {riskMeta.emoji} {riskMeta.label}
+          <DynamicIcon name={
+            riskMeta.level === 'critical' ? 'alert-circle' :
+            riskMeta.level === 'high' ? 'alert-triangle' :
+            riskMeta.level === 'medium' ? 'zap' :
+            riskMeta.level === 'low' ? 'check-circle' : 'shield-check'
+          } size={14} style={{ marginRight: 4 }} />
+          {riskMeta.label}
         </div>
       </div>
 
@@ -63,7 +70,8 @@ export default function ResultPage() {
       {record.result.is_ood && (
         <div className="card" style={{ borderColor: 'var(--risk-medium)', marginTop: 16 }}>
           <p style={{ color: 'var(--risk-medium)', fontWeight: 600 }}>
-            ⚠️ {record.result.ood_message}
+            <AlertTriangle size={18} style={{ verticalAlign: 'middle', marginRight: 8 }} />
+            {record.result.ood_message}
           </p>
         </div>
       )}
@@ -125,19 +133,25 @@ export default function ResultPage() {
           </>
         )}
 
-        <p className="report-heading">🚨 สิ่งที่ต้องทำทันที</p>
+        <p className="report-heading">
+          <Zap size={14} style={{ marginRight: 6, color: 'var(--risk-critical)' }} /> สิ่งที่ต้องทำทันที
+        </p>
         <ul className="report-list">
           {report.immediate_actions.map((a, i) => (
             <li key={i}>{a}</li>
           ))}
         </ul>
 
-        <p className="report-heading">📅 แนวทาง 7 วันข้างหน้า</p>
+        <p className="report-heading">
+          <Calendar size={14} style={{ marginRight: 6, color: 'var(--primary)' }} /> แนวทาง 7 วันข้างหน้า
+        </p>
         <p className="report-text">{report.prevention_7days}</p>
 
         {report.chemical_options.length > 0 && (
           <>
-            <p className="report-heading">💊 สารเคมีแนะนำ</p>
+            <p className="report-heading">
+              <Pill size={14} style={{ marginRight: 6, color: '#8b5cf6' }} /> สารเคมีแนะนำ
+            </p>
             <ul className="report-list">
               {report.chemical_options.map((c, i) => (
                 <li key={i}>{c}</li>
@@ -146,12 +160,14 @@ export default function ResultPage() {
           </>
         )}
 
-        <p className="report-heading">👀 สิ่งที่ควรสังเกต</p>
+        <p className="report-heading">
+          <Eye size={14} style={{ marginRight: 6, color: 'var(--text-muted)' }} /> สิ่งที่ควรสังเกต
+        </p>
         <p className="report-text">{report.monitoring_tips}</p>
       </div>
 
       <button className="btn-primary" onClick={() => navigate('/scan')}>
-        📸 สแกนอีกครั้ง
+        <Camera size={20} style={{ marginRight: 8 }} /> สแกนอีกครั้ง
       </button>
     </div>
   );

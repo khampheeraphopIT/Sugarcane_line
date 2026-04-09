@@ -17,7 +17,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'ตรวจสอบท่อนพันธุ์ให้ปลอดโรค',
       'วางแผนระบบน้ำหยด/สปริงเกลอร์',
     ],
-    icon: '🌱',
+    icon: 'sprout',
   },
   {
     month: 2,
@@ -29,7 +29,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'ป้องกันด้วงหนวดยาว ด้วยสารชีวภัณฑ์',
       'เฝ้าระวังวัชพืช',
     ],
-    icon: '🪴',
+    icon: 'sprout',
   },
   {
     month: 3,
@@ -41,7 +41,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'สำรวจแมลงศัตรู (ด้วงหนวดยาว, หนอนกอ)',
       'เตรียมอุปกรณ์ระบายน้ำ',
     ],
-    icon: '☀️',
+    icon: 'sun',
   },
   {
     month: 4,
@@ -53,7 +53,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'สแกนใบอ้อยเพื่อเช็คสุขภาพก่อนฤดูฝน',
       'ใส่ปุ๋ยแต่งหน้าครั้งที่ 1',
     ],
-    icon: '🌡️',
+    icon: 'thermometer',
   },
   {
     month: 5,
@@ -65,7 +65,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'ระบายน้ำไม่ให้ขังในแปลง',
       'ฉีดสารป้องกันเชื้อราเชิงรุก',
     ],
-    icon: '🌧️',
+    icon: 'cloud-rain',
   },
   {
     month: 6,
@@ -77,7 +77,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'กำจัดวัชพืชรอบโคน',
       'ระวังโรคเน่าแดงในช่วงฝนชุก',
     ],
-    icon: '🌿',
+    icon: 'leaf',
   },
   {
     month: 7,
@@ -89,7 +89,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'เสริมแคลเซียม + โบรอน ทางใบ',
       'ระบายน้ำอย่างสม่ำเสมอ',
     ],
-    icon: '⛈️',
+    icon: 'cloud-lightning',
   },
   {
     month: 8,
@@ -101,7 +101,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'ลดความหนาแน่นให้อากาศถ่ายเท',
       'สแกนด้วยแอปทุกสัปดาห์',
     ],
-    icon: '🦠',
+    icon: 'bug',
   },
   {
     month: 9,
@@ -113,7 +113,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'วางแผนเก็บเกี่ยว',
       'ลดการให้น้ำถ้าฝนยังตกสม่ำเสมอ',
     ],
-    icon: '🌤️',
+    icon: 'sun',
   },
   {
     month: 10,
@@ -125,7 +125,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'เตรียมคนงาน/เครื่องจักร',
       'สแกนรอบสุดท้ายเพื่อเช็คคุณภาพ',
     ],
-    icon: '📋',
+    icon: 'clipboard',
   },
   {
     month: 11,
@@ -137,7 +137,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'บันทึกผลผลิตต่อไร่',
       'เก็บข้อมูลสำหรับฤดูถัดไป',
     ],
-    icon: '🚜',
+    icon: 'tractor',
   },
   {
     month: 12,
@@ -149,7 +149,7 @@ export const SEASONAL_GUIDE: SeasonalTip[] = [
       'วิเคราะห์ดินเพื่อวางแผนใส่ปุ๋ย',
       'สรุปบทเรียน + วางแผนปีหน้า',
     ],
-    icon: '📊',
+    icon: 'bar-chart',
   },
 ];
 

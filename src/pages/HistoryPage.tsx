@@ -3,9 +3,10 @@
    ────────────────────────────────────────────── */
 
 import { useNavigate } from 'react-router-dom';
-import { ClipboardList, Trash2 } from 'lucide-react';
+import { ClipboardList, Trash2, Camera } from 'lucide-react';
 import { useScanHistory } from '@/hooks/useScanHistory';
 import { getRiskMeta } from '@/utils/riskLevel';
+import { DynamicIcon } from '@/components/Common/DynamicIcon';
 import './HistoryPage.css';
 
 export default function HistoryPage() {
@@ -19,7 +20,7 @@ export default function HistoryPage() {
         <h3>ยังไม่มีประวัติการสแกน</h3>
         <p>สแกนใบอ้อยครั้งแรกเพื่อเริ่มบันทึกประวัติ</p>
         <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => navigate('/scan')}>
-          📸 สแกนเลย
+          <Camera size={20} style={{ marginRight: 8 }} /> สแกนเลย
         </button>
       </div>
     );
@@ -39,7 +40,10 @@ export default function HistoryPage() {
   return (
     <div className="page fade-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 700 }}>📋 ประวัติสแกน</h2>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 700 }}>
+          <ClipboardList size={20} style={{ verticalAlign: 'middle', marginRight: 8 }} />
+          ประวัติสแกน
+        </h2>
         <button className="btn-secondary" style={{ padding: '6px 12px', fontSize: '0.75rem' }} onClick={clearHistory}>
           <Trash2 size={14} /> ล้าง
         </button>
@@ -99,7 +103,13 @@ export default function HistoryPage() {
                   className="badge"
                   style={{ background: risk.bgColor, color: risk.color }}
                 >
-                  {risk.emoji} {risk.label}
+                  <DynamicIcon name={
+                    risk.level === 'critical' ? 'alert-circle' :
+                    risk.level === 'high' ? 'alert-triangle' :
+                    risk.level === 'medium' ? 'zap' :
+                    risk.level === 'low' ? 'check-circle' : 'shield-check'
+                  } size={12} style={{ marginRight: 4 }} />
+                  {risk.label}
                 </div>
               </div>
             );

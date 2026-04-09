@@ -10,7 +10,6 @@ interface RiskMeta {
   label: string;
   color: string;
   bgColor: string;
-  emoji: string;
 }
 
 /**
@@ -23,7 +22,6 @@ export function getRiskMeta(score: number): RiskMeta {
       label: 'สูงมาก',
       color: 'var(--risk-critical)',
       bgColor: 'var(--risk-critical-bg)',
-      emoji: '🔴',
     };
   if (score >= 55)
     return {
@@ -31,7 +29,6 @@ export function getRiskMeta(score: number): RiskMeta {
       label: 'สูง',
       color: 'var(--risk-high)',
       bgColor: 'var(--risk-high-bg)',
-      emoji: '🟠',
     };
   if (score >= 35)
     return {
@@ -39,7 +36,6 @@ export function getRiskMeta(score: number): RiskMeta {
       label: 'ปานกลาง',
       color: 'var(--risk-medium)',
       bgColor: 'var(--risk-medium-bg)',
-      emoji: '🟡',
     };
   if (score >= 15)
     return {
@@ -47,14 +43,12 @@ export function getRiskMeta(score: number): RiskMeta {
       label: 'ต่ำ',
       color: 'var(--risk-low)',
       bgColor: 'var(--risk-low-bg)',
-      emoji: '🟢',
     };
   return {
     level: 'safe',
     label: 'ปลอดภัย',
     color: 'var(--risk-safe)',
     bgColor: 'var(--risk-safe-bg)',
-    emoji: '✅',
   };
 }
 

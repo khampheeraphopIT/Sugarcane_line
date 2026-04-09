@@ -33,7 +33,8 @@ export default function NotificationPage({
   return (
     <div className="page fade-in">
       <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 'var(--space-lg)' }}>
-        🔔 การแจ้งเตือน
+        <Bell size={20} style={{ verticalAlign: 'middle', marginRight: 8 }} />
+        การแจ้งเตือน
       </h2>
 
       {unread.length > 0 && (
