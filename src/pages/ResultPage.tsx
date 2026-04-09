@@ -32,6 +32,9 @@ export default function ResultPage() {
   const { image_analysis, weather_features, prediction, report } = record.result;
   const riskMeta = getRiskMeta(prediction.risk_score);
 
+  const isHealthy = image_analysis.is_healthy;
+  const isOod = record.result.is_ood;
+
   return (
     <div className="page fade-in result-page">
       {/* Back button */}
@@ -41,7 +44,7 @@ export default function ResultPage() {
 
       {/* Disease name */}
       <div className="result-disease-header">
-        <h2>{image_analysis.disease_name_thai}</h2>
+        <h2>{isOod ? 'ภาพไม่ถูกต้อง/ไม่ชัดเจน' : isHealthy ? 'สุขภาพใบอ้อยดีเยี่ยม' : image_analysis.disease_name_thai}</h2>
         <div className="badge" style={{ background: riskMeta.bgColor, color: riskMeta.color }}>
           <DynamicIcon name={
             riskMeta.level === 'critical' ? 'alert-circle' :
@@ -59,15 +62,19 @@ export default function ResultPage() {
       )}
 
       {/* Risk gauge */}
-      <div className="result-section-header" style={{ textAlign: 'center', marginBottom: 'var(--space-md)' }}>
-        <p className="text-muted" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-          คะแนนความรุนแรงของโรค
-        </p>
-      </div>
-      <RiskGauge score={prediction.risk_score} />
+      {!isOod && (
+        <>
+          <div className="result-section-header" style={{ textAlign: 'center', marginBottom: 'var(--space-md)' }}>
+            <p className="text-muted" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              {isHealthy ? 'ระดับความสมบูรณ์ของใบอ้อย' : 'คะแนนความรุนแรงของโรค'}
+            </p>
+          </div>
+          <RiskGauge score={prediction.risk_score} />
+        </>
+      )}
 
       {/* OOD Warning */}
-      {record.result.is_ood && (
+      {isOod && (
         <div className="card" style={{ borderColor: 'var(--risk-medium)', marginTop: 16 }}>
           <p style={{ color: 'var(--risk-medium)', fontWeight: 600 }}>
             <AlertTriangle size={18} style={{ verticalAlign: 'middle', marginRight: 8 }} />
@@ -107,7 +114,7 @@ export default function ResultPage() {
       </div>
 
       {/* Disease probability */}
-      <DiseaseDonut probabilities={image_analysis.all_probabilities} />
+      {!isHealthy && !isOod && <DiseaseDonut probabilities={image_analysis.all_probabilities} />}
 
       {/* Weather summary */}
       {weather_features && (
@@ -128,32 +135,37 @@ export default function ResultPage() {
 
         {report.disease_explanation && (
           <>
-            <p className="report-heading">สาเหตุ</p>
+            <p className="report-heading">{isHealthy ? 'วิเคราะห์ความสมบูรณ์' : 'สาเหตุ'}</p>
             <p className="report-text">{report.disease_explanation}</p>
           </>
         )}
 
         <p className="report-heading">
-          <Zap size={14} style={{ marginRight: 6, color: 'var(--risk-critical)' }} /> สิ่งที่ต้องทำทันที
+          {isHealthy ? (
+            <><CheckCircle size={14} style={{ marginRight: 6, color: 'var(--risk-safe)' }} /> การดูแลรักษาต่อเนื่อง</>
+          ) : (
+            <><Zap size={14} style={{ marginRight: 6, color: 'var(--risk-critical)' }} /> สิ่งที่ต้องทำทันที</>
+          )}
         </p>
         <ul className="report-list">
-          {report.immediate_actions.map((a, i) => (
+          {report.immediate_actions.map((a: string, i: number) => (
             <li key={i}>{a}</li>
           ))}
         </ul>
 
         <p className="report-heading">
-          <Calendar size={14} style={{ marginRight: 6, color: 'var(--primary)' }} /> แนวทาง 7 วันข้างหน้า
+          <Calendar size={14} style={{ marginRight: 6, color: 'var(--primary)' }} /> 
+          {isHealthy ? 'การป้องกันและบำรุงใน 7 วัน' : 'แนวทาง 7 วันข้างหน้า'}
         </p>
         <p className="report-text">{report.prevention_7days}</p>
 
-        {report.chemical_options.length > 0 && (
+        {!isHealthy && report.chemical_options && report.chemical_options.length > 0 && (
           <>
             <p className="report-heading">
               <Pill size={14} style={{ marginRight: 6, color: '#8b5cf6' }} /> สารเคมีแนะนำ
             </p>
             <ul className="report-list">
-              {report.chemical_options.map((c, i) => (
+              {report.chemical_options.map((c: string, i: number) => (
                 <li key={i}>{c}</li>
               ))}
             </ul>
