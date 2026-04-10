@@ -3,7 +3,7 @@
    ────────────────────────────────────────────── */
 
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertTriangle, CheckCircle, Shield, Zap, Calendar, Pill, Eye, Camera } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, CheckCircle, Shield, Zap, Calendar, Pill, Eye, Camera, ImageOff } from 'lucide-react';
 import { useScanHistory } from '@/hooks/useScanHistory';
 import RiskGauge from '@/components/Weather/RiskGauge';
 import DiseaseDonut from '@/components/Charts/DiseaseDonut';
@@ -35,6 +35,85 @@ export default function ResultPage() {
   const isHealthy = image_analysis.is_healthy;
   const isOod = record.result.is_ood || prediction.final_disease === 'Unknown';
 
+  /* ── OOD (Not a sugarcane leaf) — Dedicated view ── */
+  if (isOod) {
+    const oodMsg = record.result.ood_message
+      || prediction.warning
+      || 'ระบบตรวจไม่พบลักษณะของใบอ้อยในภาพนี้';
+
+    return (
+      <div className="page fade-in result-page">
+        {/* Back button */}
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          <ArrowLeft size={20} /> กลับ
+        </button>
+
+        {/* Header */}
+        <div className="result-disease-header">
+          <h2>ไม่ใช่ภาพใบอ้อย</h2>
+          <div className="badge" style={{ background: 'rgba(251,146,60,0.15)', color: '#fb923c' }}>
+            <AlertTriangle size={14} style={{ marginRight: 4 }} />
+            ภาพไม่ถูกต้อง
+          </div>
+        </div>
+
+        {/* Scan image */}
+        {record.imageDataUrl && (
+          <img src={record.imageDataUrl} alt="สแกน" className="result-image" style={{ opacity: 0.6 }} />
+        )}
+
+        {/* OOD Warning card */}
+        <div className="card" style={{ borderLeft: '4px solid #fb923c', marginTop: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+            <ImageOff size={28} style={{ color: '#fb923c', flexShrink: 0, marginTop: 2 }} />
+            <div>
+              <p style={{ color: '#fb923c', fontWeight: 700, fontSize: '1rem', marginBottom: 8 }}>
+                ระบบตรวจพบว่าภาพนี้ไม่ใช่ใบอ้อย
+              </p>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.6 }}>
+                {oodMsg}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Tips for retaking photo */}
+        <div className="card">
+          <p className="section-title">
+            <Camera size={14} style={{ marginRight: 6 }} /> คำแนะนำในการถ่ายรูป
+          </p>
+          <ul className="report-list">
+            {(report?.immediate_actions && report.immediate_actions.length > 0)
+              ? report.immediate_actions.map((a: string, i: number) => <li key={i}>{a}</li>)
+              : (
+                <>
+                  <li>ถ่ายรูปใบอ้อยให้เห็นรายละเอียดชัดเจน</li>
+                  <li>หลีกเลี่ยงการถ่ายย้อนแสงหรือรูปที่สั่นไหว</li>
+                  <li>เลือกใบที่มีอาการของโรค (ถ้ามี) เพื่อความแม่นยำ</li>
+                </>
+              )
+            }
+          </ul>
+        </div>
+
+        {/* AI explanation */}
+        {report?.disease_explanation && (
+          <div className="card">
+            <p className="section-title">
+              <Shield size={14} style={{ marginRight: 6 }} /> คำอธิบายจากระบบ
+            </p>
+            <p className="report-text">{report.disease_explanation}</p>
+          </div>
+        )}
+
+        <button className="btn-primary" onClick={() => navigate('/scan')}>
+          <Camera size={20} style={{ marginRight: 8 }} /> ถ่ายรูปใหม่
+        </button>
+      </div>
+    );
+  }
+
+  /* ── Normal result (healthy or diseased sugarcane) ── */
   return (
     <div className="page fade-in result-page">
       {/* Back button */}
@@ -44,7 +123,7 @@ export default function ResultPage() {
 
       {/* Disease name */}
       <div className="result-disease-header">
-        <h2>{isOod ? 'ภาพไม่ถูกต้อง/ไม่ชัดเจน' : isHealthy ? 'สุขภาพใบอ้อยดีเยี่ยม' : image_analysis.disease_name_thai}</h2>
+        <h2>{isHealthy ? 'สุขภาพใบอ้อยดีเยี่ยม' : image_analysis.disease_name_thai}</h2>
         <div className="badge" style={{ background: riskMeta.bgColor, color: riskMeta.color }}>
           <DynamicIcon name={
             riskMeta.level === 'critical' ? 'alert-circle' :
@@ -62,26 +141,12 @@ export default function ResultPage() {
       )}
 
       {/* Risk gauge */}
-      {!isOod && (
-        <>
-          <div className="result-section-header" style={{ textAlign: 'center', marginBottom: 'var(--space-md)' }}>
-            <p className="text-muted" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              {isHealthy ? 'ระดับความสมบูรณ์ของใบอ้อย' : 'คะแนนความรุนแรงของโรค'}
-            </p>
-          </div>
-          <RiskGauge score={prediction.risk_score} />
-        </>
-      )}
-
-      {/* OOD Warning */}
-      {isOod && (
-        <div className="card" style={{ borderColor: 'var(--risk-medium)', marginTop: 16 }}>
-          <p style={{ color: 'var(--risk-medium)', fontWeight: 600 }}>
-            <AlertTriangle size={18} style={{ verticalAlign: 'middle', marginRight: 8 }} />
-            {record.result.ood_message}
-          </p>
-        </div>
-      )}
+      <div className="result-section-header" style={{ textAlign: 'center', marginBottom: 'var(--space-md)' }}>
+        <p className="text-muted" style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          {isHealthy ? 'ระดับความสมบูรณ์ของใบอ้อย' : 'คะแนนความรุนแรงของโรค'}
+        </p>
+      </div>
+      <RiskGauge score={prediction.risk_score} />
 
       {/* Prediction summary */}
       <div className="card result-summary">
@@ -109,15 +174,15 @@ export default function ResultPage() {
         </div>
         <div className="summary-row">
           <span className="summary-label">แนวโน้มใน 7 วัน</span>
-          <span className="summary-value">{prediction.forecast_risk_7d.level_7d}</span>
+          <span className="summary-value">{prediction.forecast_risk_7d?.level_7d ?? '-'}</span>
         </div>
       </div>
 
       {/* Disease probability */}
-      {!isHealthy && !isOod && <DiseaseDonut probabilities={image_analysis.all_probabilities} />}
+      {!isHealthy && <DiseaseDonut probabilities={image_analysis.all_probabilities} />}
 
       {/* Weather summary */}
-      {weather_features && (
+      {weather_features?.weather_summary && (
         <div className="card">
           <p className="section-title">สภาพอากาศที่ส่งผล</p>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
@@ -148,7 +213,7 @@ export default function ResultPage() {
           )}
         </p>
         <ul className="report-list">
-          {report.immediate_actions.map((a: string, i: number) => (
+          {report.immediate_actions?.map((a: string, i: number) => (
             <li key={i}>{a}</li>
           ))}
         </ul>
