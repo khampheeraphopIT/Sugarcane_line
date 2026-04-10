@@ -111,7 +111,7 @@ export interface AnalysisResponse {
   is_ood?: boolean;
   ood_message?: string;
   image_analysis: ImageAnalysis;
-  weather_features: WeatherFeatures;
+  weather_features: WeatherFeatures | Record<string, never>;
   prediction: Prediction;
   report: Report;
 }

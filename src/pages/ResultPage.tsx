@@ -29,11 +29,12 @@ export default function ResultPage() {
     );
   }
 
-  const { image_analysis, weather_features, prediction, report } = record.result;
-  const riskMeta = getRiskMeta(prediction.risk_score);
+  const { image_analysis, prediction, report } = record.result;
+  const weather_features = (record.result.weather_features || {}) as Partial<import('@/types').WeatherFeatures>;
+  const riskMeta = getRiskMeta(prediction?.risk_score ?? 0);
 
-  const isHealthy = image_analysis.is_healthy;
-  const isOod = record.result.is_ood || prediction.final_disease === 'Unknown';
+  const isHealthy = image_analysis?.is_healthy ?? false;
+  const isOod = record.result.is_ood || prediction?.final_disease === 'Unknown';
 
   /* ── OOD (Not a sugarcane leaf) — Dedicated view ── */
   if (isOod) {

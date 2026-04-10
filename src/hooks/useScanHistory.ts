@@ -13,17 +13,38 @@ function loadHistory(): ScanRecord[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
-    const records: ScanRecord[] = JSON.parse(raw);
-    // Auto-cleanup: remove records older than 30 days
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
     const cutoff = Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
-    return records.filter((r) => r.timestamp >= cutoff);
+    // Validate each record individually — skip corrupt entries
+    return parsed.filter((r: ScanRecord) => {
+      try {
+        return r && r.id && r.timestamp >= cutoff && r.result;
+      } catch {
+        return false;
+      }
+    });
   } catch {
     return [];
   }
 }
 
 function saveHistory(records: ScanRecord[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  } catch {
+    // QuotaExceededError — strip imageDataUrl from oldest records and retry
+    console.warn('localStorage quota exceeded, trimming image data...');
+    const trimmed = records.map((r, i) => 
+      i > 5 ? { ...r, imageDataUrl: undefined } : r
+    );
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+    } catch {
+      // Still too big — keep only last 10 records
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed.slice(0, 10)));
+    }
+  }
 }
 
 export function useScanHistory() {
